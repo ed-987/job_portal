@@ -38,7 +38,7 @@ public class User {
 		return admin;
 	}
 
-	public void setAdmin(int admin) {
+	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
 
