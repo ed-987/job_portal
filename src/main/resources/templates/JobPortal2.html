@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <span id="home_button">HOME</span>
+      <button id="login_link" class="login_link">login</button>
+      <span id="user" class="login_link">
+      </span>
+      <img src="menu-bar-png-1.png" id="menu_button">
+      <span id="menu_bar">
+
+      </span>
+    </div>
+
+    <div id="home">
+      <button id="all_jobs">show all jobs</button>
+      <button id="add_job_button">add job</button>
+      <div id="search">
+        <input id="search_input" type="text">
+        <button id="search_button">search</button>
+      </div>
+    </div>
+    <div id="main_container" class="main_container"></div>
+    <div id="login" class="main_text">
+      user name:&nbsp;<input id="login_input" type="text"><br><br>
+      &nbsp;password:&nbsp;<input id="password_input" type="text"><br><br>
+      <button id="login_button">login</button><br>
+      <span id="login_error"></span>
+    </div>
+    <div id="add_job" class="main_text">
+      name:&nbsp;<input id="add_job_name" type="text"><br><br>
+      description:&nbsp;<input id="add_job_description" type="text"><br><br>
+      <button id="add_job_submit">submit</button><br>
+      <div id="add_job_result"></div>
+    </div>
+    <div id="menu">
+      <span class="close_box">X</span>
+      <span id="logout">logout</span>
+    </div>
+    
+    <div id="open_box">
+    </div>
+
+    <script src="scripts.js"></script>
+
+
+  </body>
+</html>
