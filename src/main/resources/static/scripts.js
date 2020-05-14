@@ -6,7 +6,6 @@ if(heroku){
 } else{
   url="http://localhost:8080/";
 }
-alert(url);
 
 function open_box(job){
   if(document.getElementById("menu").style.display === "block"){
