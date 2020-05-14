@@ -1,4 +1,4 @@
-var heroku=false;
+var heroku=true;
 
 var url;
 if(heroku){
