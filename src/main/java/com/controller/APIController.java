@@ -1,11 +1,9 @@
 package com.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
 
-import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import com.Repository.JobRepository;
 import com.Repository.UserRepository;
 import com.Service.Auth;
 import com.component.InitSessions;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import com.model.Job;
 import com.model.LoginSession;
