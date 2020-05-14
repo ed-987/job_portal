@@ -1,3 +1,12 @@
+var heroku=true;
+
+var url;
+if(heroku){
+  url="https://job-portal-app-demo.herokuapp.com/";
+} else{
+  url="http://localhost:8080/";
+}
+
 function open_box(job){
   if(document.getElementById("menu").style.display === "block"){
     document.getElementById("menu").style.display="none";
@@ -20,10 +29,10 @@ function get_jobs(type){
   switch(type){
     case "search":
       var input=get_input("search_input");
-      var uri="http://localhost:8080/search?q="+input;
+      var uri=url+"search?q="+input;
       break;
     case "all":
-      var uri="http://localhost:8080/list_all";
+      var uri=url+"list_all";
   }
   xhr.open("GET", uri, true);
   xhr.onload = function (e) {
@@ -65,7 +74,7 @@ function get_jobs(type){
 
 function login(){
   var xhr = new XMLHttpRequest();
-  var uri="http://localhost:8080/login";
+  var uri=url+"login";
   xhr.open("POST", uri, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function (e) {
@@ -107,7 +116,7 @@ function admin_items(){
 }
 function post_job(){
   var xhr = new XMLHttpRequest();
-  var uri="http://localhost:8080/add";
+  var uri=url+"add";
   xhr.open("POST", uri, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function (e) {
