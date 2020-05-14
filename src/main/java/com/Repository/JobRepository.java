@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.model.Job;
-import com.model.Product;
-import com.repository.ShopRepositoty;
 
 @Repository
 public class JobRepository{
@@ -58,20 +56,5 @@ public class JobRepository{
 		final String sql = "INSERT INTO jobs (name,description) VALUES (?,?);";
 		return jdbcTemplate.update(sql,name,description);
 	}
-
-
-	/*
-	 * public List<Product> getProductsByPrice(String search) { final String sql =
-	 * "SELECT id,name,brand,description,price FROM products WHERE LOWER (name) LIKE ? "
-	 * + "OR LOWER (brand) LIKE ? ORDER BY price";
-	 * search=("%"+search+"%").toLowerCase(); return
-	 * jdbcTemplate.query(sql,mapper,search,search); }
-	 * 
-	 * public List<Product> getProductsByBrand(String search) { final String sql =
-	 * "SELECT id,name,brand,description,price FROM products WHERE LOWER (name) LIKE ? "
-	 * + "OR LOWER (brand) LIKE ? ORDER BY brand";
-	 * search=("%"+search+"%").toLowerCase(); return
-	 * jdbcTemplate.query(sql,mapper,search,search); }
-	 */
 
 }
