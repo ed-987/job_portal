@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +19,8 @@ public class ApplicationRepository {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass()); 
 	
 	private final RowMapper<Application> mapper = new RowMapper<Application>() {
 		
@@ -40,7 +44,13 @@ public class ApplicationRepository {
 
 	public List<Application> getApps() {
 		//final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
-		final String sql = "SELECT id from applications;";
+		String sql="";
+		try {
+			sql = "SELECT applications.id from applications;";
+		} catch (Exception e) {
+			logger.debug("jdbc error : " + e);
+			e.printStackTrace();
+		}
 		return jdbcTemplate.query(sql,mapper);
 	}
 
