@@ -29,7 +29,7 @@ public class ApplicationRepository {
 		@Override
 		public Application mapRow(ResultSet rs, int rowNum) throws SQLException{
 		    Application n = new Application();
-			n.setId(rs.getInt("applications.id"));
+			//n.setId(rs.getInt("applications.id"));  TEMP
 			n.setFname(rs.getString("applications.fname"));
 			n.setLname(rs.getString("applications.lname"));
 			n.setJob_name(rs.getString("jobs.name"));
