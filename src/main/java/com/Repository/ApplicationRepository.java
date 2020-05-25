@@ -29,7 +29,7 @@ public class ApplicationRepository {
 		@Override
 		public Application mapRow(ResultSet rs, int rowNum) throws SQLException{
 		    Application n = new Application();
-			//n.setId(rs.getInt("applications.id"));  TEMP
+			n.setId(rs.getInt("applications.id"));
 			n.setFname(rs.getString("applications.fname"));
 			n.setLname(rs.getString("applications.lname"));
 			n.setJob_name(rs.getString("jobs.name"));
@@ -46,7 +46,7 @@ public class ApplicationRepository {
 
 	public List<Application> getApps() {
 		//final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
-		final String sql = "SELECT applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
+		final String sql = "SELECT applications.id AS \"applications.id\",applications.fname AS \"applications.fname\",applications.lname AS \"applications.lname\",applications.job_id AS \"applications.job_id\",applications.file_name AS \"applications.file_name\",jobs.name AS \"jobs.name\" FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
 		List<Application> ret=new ArrayList<Application>();
 		
 		try {
