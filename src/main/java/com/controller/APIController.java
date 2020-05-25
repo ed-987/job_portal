@@ -1,31 +1,20 @@
 package com.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.Repository.ApplicationRepository;
 import com.Repository.JobRepository;
 import com.Repository.UserRepository;
 import com.Service.Auth;
-import com.Service.ApplicationService;
 import com.component.InitSessions;
 import com.google.gson.Gson;
-import com.model.Application;
 import com.model.Job;
 import com.model.LoginSession;
 import com.model.User;
