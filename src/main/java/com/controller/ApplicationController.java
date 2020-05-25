@@ -54,7 +54,7 @@ public class ApplicationController {
 		 //logger.debug("save : " + save);
 		
 		List<Application> applist=applicationRepository.getApps();
-		String json = new Gson().toJson(applist);
+		//String json = new Gson().toJson(applist);
 		//return json.toString();
 		return "ok";
 	}
