@@ -1,4 +1,4 @@
-var server="l";
+var server="h";
 
 var url;
 switch(server){
