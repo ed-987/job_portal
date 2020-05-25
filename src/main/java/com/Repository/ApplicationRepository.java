@@ -45,8 +45,8 @@ public class ApplicationRepository {
 	}
 
 	public List<Application> getApps() {
-		final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
-
+		//final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
+		final String sql = "SELECT applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
 		List<Application> ret=new ArrayList<Application>();
 		
 		try {
