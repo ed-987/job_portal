@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
-    <div class="header_container">
+    <div id="header_container" class="header_container">
       <span id="home_button">HOME</span>
       <button id="login_link" class="login_link">login</button>
       <span id="user" class="login_link">
@@ -37,16 +37,40 @@
       <button id="add_job_submit">submit</button><br>
       <div id="add_job_result"></div>
     </div>
+    <div id="applications">
+    </div>
     <div id="menu">
       <span class="close_box">X</span>
+      <span id="see_apps_button">see applications</span><br>
       <span id="logout">logout</span>
     </div>
     
     <div id="open_box">
     </div>
 
-    <script src="scripts.js"></script>
+    <div id="open_box_buttons_store1" class="store">
+      <button id="reg_cv_button" class="apply_buttons">apply using registered cv</button>
+      <button id="new_cv_button" class="apply_buttons">apply using new cv</button>
+    </div>
+    <div id="open_box_buttons_store2" class="store">
+      <button id="login_apply_button" class="apply_buttons">login & apply</button>
+      <button id="no_reg_button" class="apply_buttons">apply without registration</button>
+    </div>
+    <div id="open_box_apply_no_reg_store" class="store">
+      <form enctype="multipart/form-data" id="cv_form" onsubmit="upload_cv_no_reg();" method="post">
+        first name:&nbsp;<input id="apply_fname" type="text"><br><br>
+        last name:&nbsp;<input id="apply_lname" type="text"><br><br>
+        <label for="file">Upload CV:</label>
+        <input type="file" id="apply_cv" name="file"><br><br>
+        <input type="submit" id="apply_submit" value="submit application">
+        <div id="no_reg_apply_result"></div>
+      </form>
+    </div>
 
+    <!-- <p id="download_link" onclick="download();">calc.jpeg</p> -->
+
+    <script src="scripts.js"></script>
 
   </body>
 </html>
+

@@ -43,6 +43,11 @@ html{
     border-radius: 8px;
 }
 
+#applications{
+    display: none;
+    color: #e5e5e5;
+}
+
 #menu1{
     position:absolute;left:0px;top:0px;z-index:2;width:100px;height:180px;
 }
@@ -88,8 +93,17 @@ html{
     display: none;
 }
 
+#see_apps_button{
+    display: none;
+}
+
 #add_job_result{
     margin-top: 80px;
+}
+
+#no_reg_apply_result{
+    margin-top: 80px;
+    text-align: center;
 }
 
 #search{
@@ -153,7 +167,7 @@ html{
     position: fixed;
     border-radius: 9px;
     padding: 9px;
-    top: 60px;
+    top: 80px;
     left: 0;
     right: 0;
     margin: auto;
@@ -163,7 +177,29 @@ html{
     z-index: 1;
 }
 
-@media only screen and (min-width: 400px) {
+.store{
+    display: none;
+}
+
+.apply_buttons{
+    margin: 5px 15px 5px 15px;
+}
+
+#apply{
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    text-align: center;
+}
+#apply_form{
+    margin: 15px;
+}
+
+table, th, td {
+    border: 1px solid white;
+}
+
+@media only screen and (min-width: 500px) {
   #menu_button{
     display: none;
   }

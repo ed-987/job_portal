@@ -1,24 +1,33 @@
-var heroku=true;
+var server="l";
 
 var url;
-if(heroku){
-  url="https://job-portal-app-demo.herokuapp.com/";
-} else{
-  url="http://localhost:8080/";
+switch(server){
+  case "h":
+    url="https://job-portal-app-demo.herokuapp.com/";
+    break;
+  case "w":
+    url="http://80.99.219.38:8082/";
+    break;
+  case "l":
+    url="http://localhost:8082/";
 }
 
 function open_box(job){
-  if(document.getElementById("menu").style.display === "block"){
+  if(is_block("menu")){
     document.getElementById("menu").style.display="none";
   }else{
-    if(document.getElementById("open_box").style.display === "block"){
-      document.getElementById("open_box").style.display = "none";
+    if(is_block("open_box")){
+      hide("open_box");
       opened_box="";
     }else{
-      document.getElementById("open_box").style.display = "block";
+      block("open_box");
       var text='Id: '+job.id+'<br>'+'name: '+job.name+'<br>'+'Descr: '+job.description;
-      text+='<span class="close_box">X</span>';
-      document.getElementById("open_box").innerHTML=text;
+      text+='<span id="close_box" class="close_box">X</span>';
+      text+='<div id="apply_form"></div>'
+      text+='<div id="apply"><button id="apply_button">apply</button></div>';
+      text+='<div id="job_id_div" job_id="'+job.id+'"></div>';
+      set_id("open_box",text);
+      on_click("apply_button",apply);
       opened_box=String(job.id);
     }
   }
@@ -112,7 +121,7 @@ function logged_in_items(){
 }
 
 function admin_items(){
-  inline_block("add_job_button");
+  inline_block("add_job_button","see_apps_button");
 }
 function post_job(){
   var xhr = new XMLHttpRequest();
@@ -145,8 +154,72 @@ function post_job(){
   xhr.send(send_value); 
 }
 
+function apply(){
+  if(localStorage.getItem("user")){
+    set_id("apply",get_id("open_box_buttons_store1"));
+  }else{
+    set_id("apply",get_id("open_box_buttons_store2"));
+    on_click("no_reg_button",function() {set_id("apply_form",get_id("open_box_apply_no_reg_store"));});
+  }
+}
+
+function upload_cv_no_reg() {
+  //event.stopPropagation();
+  event.preventDefault();
+  var fileInput = document.getElementById('apply_cv');
+  var file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('fname',get_input("apply_fname"));
+  formData.append('lname',get_input("apply_lname"));
+  var job_id=parseInt(document.getElementById("job_id_div").getAttribute("job_id"));
+  formData.append('job_id',job_id);
+  sendData(formData);
+};
+
+function sendData(formData) {
+  const uri = url+"upload";
+  const xhr = new XMLHttpRequest();
+  
+  xhr.open("POST", uri, true);
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          var r=xhr.responseText;
+          switch(r){
+            case "0":
+              set_id("no_reg_apply_result","database error");
+              break;
+            case "1":
+              clear_input("apply_fname","apply_lname","apply_cv");
+              set_id("no_reg_apply_result","application submitted");
+          }
+      }
+  };
+  xhr.send(formData);
+}
+
+function download(file){
+  const uri = url+"get-file";
+  const xhr = new XMLHttpRequest();
+  
+  xhr.open("POST", uri, true);
+  xhr.responseType="arraybuffer";
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          var blob=new Blob([xhr.response]);
+          var link=document.createElement('a');
+          link.href=window.URL.createObjectURL(blob);
+          link.download=file;
+          link.click();
+      }
+  };
+  var send_value="file="+file;
+  xhr.send(send_value);
+}
+
 function hide_main(){
-  hide("main_container","home","login","add_job");
+  hide("main_container","home","login","add_job","applications");
   set_id("add_job_result","");
 }
 
@@ -154,7 +227,7 @@ function logout(){
   localStorage.clear();
   hide("user");
   inline_block("login_link");
-  hide("main_container","home","login","add_job","add_job_button");
+  hide("main_container","home","login","add_job","add_job_button","see_apps_button","applications");
   block("home");
   set_id("add_job_result","");
 }
@@ -163,6 +236,58 @@ function add_job(){
   hide_main();
   clear_input("add_job_name","add_job_description");
   block("add_job");
+}
+
+function see_applications(){
+  hide_main();
+  block("applications");
+
+  var xhr = new XMLHttpRequest();
+  var uri=url+"get_apps";
+  xhr.open("POST", uri, true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function (e) {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      var obj=JSON.parse(xhr.responseText);
+      var div='<table id="apps_table">';
+      div+='<tr>';
+      div+='<th>Application id</th>';
+      div+='<th>User id</th>';
+      div+='<th>Applicant name</th>';
+      div+='<th>Job id</th>';
+      div+='<th>Job name</th>';
+      div+='<th>CV</th>';
+      div+='</tr>';
+      var user_id;
+      var cv;
+      for(app of obj){
+        if(app.user_id===0){
+          user_id="n/a";
+        }else{
+          user_id=app.user_id.toString();
+        }
+        if(typeof app.file_name==="undefined"){
+          cv="n/a";
+        }else{
+          cv=app.file_name;
+        }
+        div+="<tr>";
+        div+='<td>'+app.id+'</td>';
+        div+='<td>'+user_id+'</td>';
+        div+='<td>'+app.fname+' '+app.lname+'</td>';
+        div+='<td>'+app.job_id+'</td>';
+        div+='<td>'+app.job_name+'</td>';
+        div+='<td onclick="download(\''+cv+'\');">'+cv+'</td>';
+        div+="</tr>";
+      }
+      set_id("applications",div);
+      block("applications");
+    }
+  };
+  var token=localStorage.getItem("token");
+  var send_value="token="+token;
+  xhr.send(send_value); 
+
 }
 
 function hide(){
@@ -189,16 +314,42 @@ function is_block(e){
 function set_id(e,v){
   document.getElementById(e).innerHTML=v;
 }
+function get_id(e){
+  return document.getElementById(e).innerHTML;
+}
 function clear_input(){
   for(var i=0;i<arguments.length;i++){
     document.getElementById(arguments[i]).value="";
   }
+}
+function is_target(){
+  var ret=false;
+  var p=arguments[0];
+  var e=document.getElementById(p);
+  if(e===null){
+    ret=true;
+  }else{
+    for(var i=1;i<arguments.length;i++){
+      if(document.getElementById(arguments[i]).contains(e) && (p !== "close_box")){
+        ret=true;
+        break;
+      }
+    }
+  }
+  return ret;
 }
 function get_input(e){
   return document.getElementById(e).value;
 }
 function on_click(b,f){
   document.getElementById(b).addEventListener("click", f);
+}
+function on_enter(e,f){
+  document.getElementById(e).addEventListener("keypress", function(e) {
+    if(e.code==="Enter" || e.code==="NumpadEnter"){
+      f();
+    }
+  });
 }
 
 var opened_box="";
@@ -215,49 +366,12 @@ document.getElementById("menu_button").addEventListener("click", function() {
 document.body.addEventListener("click", function(e) {
   if((document.getElementById("menu").style.display === "block") && (e.target.id !== "menu") && 
   (e.target.id !== "menu_button")){
-    document.getElementById("menu").style.display = "none";
+    hide("menu");
   }
-  else if((document.getElementById("open_box").style.display === "block") && 
-  (e.target.id !=="open_box") && (e.target.id !=="menu_button") &&
-  (document.getElementById("menu").style.display !== "block") &&
-  (e.target.id !== "box"+opened_box)){
-    document.getElementById("open_box").style.display = "none";
-  }
-});
-
-document.getElementById("all_jobs").addEventListener("click", function() {
-  get_jobs("all");
-});
-
-document.getElementById("home_button").addEventListener("click", function() {
-  hide_main();
-  document.getElementById("home").style.display = "block";
-});
-
-document.getElementById("search_button").addEventListener("click", function() {
-  get_jobs("search");
-});
-
-document.getElementById("search_input").addEventListener("keypress", function(e) {
-  if(e.code==="Enter"){
-    get_jobs("search");
-  }
-});
-
-document.getElementById("login_link").addEventListener("click", function(e) {
-  hide_main();
-  document.getElementById("login").style.display = "block";
-});
-
-document.getElementById("login_input").addEventListener("keypress", function(e) {
-  if(e.code==="Enter" || e.code==="NumpadEnter"){
-    login();
-  }
-});
-
-document.getElementById("password_input").addEventListener("keypress", function(e) {
-  if(e.code==="Enter" || e.code==="NumpadEnter"){
-    login();
+  else if(is_block("open_box") && (document.getElementById("menu").style.display !== "block") &&
+  !is_target(e.target.id,"open_box","menu_button","box"+opened_box))
+  {
+    hide("open_box");
   }
 });
 
@@ -271,7 +385,18 @@ if(localStorage.getItem("admin")){
   admin_items();
 }
 
+on_enter("search_input",function() {get_jobs("search")});
+on_enter("login_input",login);
+on_enter("password_input",login);
+on_enter("add_job_name",post_job);
+on_enter("add_job_description",post_job);
+
+on_click("all_jobs",function() {get_jobs("all")});
+on_click("search_button",function() {get_jobs("search")});
 on_click("login_button",login);
 on_click("logout",logout);
 on_click("add_job_button", add_job);
 on_click("add_job_submit",post_job);
+on_click("home_button",function() {hide_main();block("home");});
+on_click("login_link",function() {hide_main();block("login");});
+on_click("see_apps_button",see_applications);

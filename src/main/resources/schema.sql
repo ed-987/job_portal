@@ -10,4 +10,13 @@ CREATE TABLE IF NOT EXISTS users (
   p VARCHAR(50) NOT NULL,
   admin VARCHAR(1) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS applications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fname VARCHAR(50) NOT NULL,
+  lname VARCHAR(50),
+  job_id INT,
+  user_id INT,
+  file_name VARCHAR(50)
+);
   
