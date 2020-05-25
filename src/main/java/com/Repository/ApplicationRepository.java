@@ -2,11 +2,13 @@ package com.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -43,15 +45,17 @@ public class ApplicationRepository {
 	}
 
 	public List<Application> getApps() {
-		//final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
-		String sql="";
+		final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
+
+		List<Application> ret=new ArrayList<Application>();
+		
 		try {
-			sql = "SELECT applications.id from applications;";
-		} catch (Exception e) {
-			logger.debug("jdbc error : " + e);
+			ret=jdbcTemplate.query(sql,mapper);
+		} catch (DataAccessException e) {
+			logger.debug("HERE ****** jdbc error : " + e);
 			e.printStackTrace();
 		}
-		return jdbcTemplate.query(sql,mapper);
+		return ret;
 	}
 
 }
