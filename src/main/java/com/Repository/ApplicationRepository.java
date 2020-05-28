@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.model.Application;
-import com.model.Job;
 
 @Repository
 public class ApplicationRepository {
@@ -45,17 +44,21 @@ public class ApplicationRepository {
 	}
 
 	public List<Application> getApps() {
-		//final String sql = "SELECT applications.id,applications.fname,applications.lname,applications.job_id,applications.file_name,jobs.name FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
 		final String sql = "SELECT applications.id AS \"applications.id\",applications.fname AS \"applications.fname\",applications.lname AS \"applications.lname\",applications.job_id AS \"applications.job_id\",applications.file_name AS \"applications.file_name\",jobs.name AS \"jobs.name\" FROM applications INNER JOIN jobs ON applications.job_id=jobs.id;";
 		List<Application> ret=new ArrayList<Application>();
 		
 		try {
 			ret=jdbcTemplate.query(sql,mapper);
 		} catch (DataAccessException e) {
-			logger.debug("HERE ****** jdbc error : " + e);
+			//logger.debug("HERE ****** jdbc error : " + e);
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	public int deleteApp(int id) {
+		final String sql = "DELETE FROM applications WHERE id=?;";
+		return jdbcTemplate.update(sql,id);
 	}
 
 }

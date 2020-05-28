@@ -2,6 +2,26 @@ html{
     background-color: #2e2b2b;
 }
 
+.table_icon{
+    background: #e2c2c2;
+    width: 18px;
+    height: 18px;
+}
+
+#download_icon{
+    float: right;
+}
+
+.del_conf{
+    visibility: hidden;
+    color: #4a45ff;
+    font-weight: bold;
+}
+
+.Y_N{
+    text-decoration: underline;
+}
+
 .header_container{
     background-color: #b8b888;
     height: 32px;
@@ -46,11 +66,13 @@ html{
 #applications{
     display: none;
     color: #e5e5e5;
+    padding: 2px;
+
 }
 
-#menu1{
+/* #menu1{
     position:absolute;left:0px;top:0px;z-index:2;width:100px;height:180px;
-}
+} */
 
 #menu{
     display: none;
@@ -74,6 +96,10 @@ html{
     top: 10px;
     height: 40px;
     width: 40px;
+}
+
+.menu_opt{
+    margin: 6px 0 6px 0;
 }
 
 #home{
@@ -199,10 +225,27 @@ table, th, td {
     border: 1px solid white;
 }
 
-@media only screen and (min-width: 500px) {
-  #menu_button{
-    display: none;
+td{
+    padding: 3px;
+}
+
+#delete_col{
+    text-align: center;
+    width: 20px;
+}
+
+.no_wrap{
+    white-space: nowrap;
+}
+
+  #apps_table{
+      width: 100%;
   }
+
+@media only screen and (min-width: 500px) {
+/*   #menu_button{
+    display: none;
+  } */
 
   #menu_bar{
       display: block;
@@ -215,4 +258,6 @@ table, th, td {
   #open_box{
       width: 90%;
   }
+
+
 }

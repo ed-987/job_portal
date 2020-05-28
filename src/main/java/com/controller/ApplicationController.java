@@ -41,7 +41,6 @@ public class ApplicationController {
 		 File transferFile = new File(uploadPath + file.getOriginalFilename()); 
 		 file.transferTo(transferFile);
 		 int save=applicationRepository.saveNoReg(new Application(fname,lname,job_id,file.getOriginalFilename()));
-		 //logger.debug("save : " + save);
 		 return save;
 	}
 	
@@ -50,13 +49,19 @@ public class ApplicationController {
 	public String get_apps(
 			@RequestParam("token") String token)
 					throws IllegalStateException, IOException {
-	
-		 //logger.debug("save : " + save);
-		
+			
 		List<Application> applist=applicationRepository.getApps();
 		String json = new Gson().toJson(applist);
 		return json.toString();
-		//return "ok";
+	}
+	
+	@PostMapping(value= {"/delete_app"})
+	@ResponseBody
+	public int delete_app(
+			@RequestParam("token") String token, @RequestParam("id") int id)
+					throws IllegalStateException, IOException {
+		
+		return applicationRepository.deleteApp(id);
 	}
 	
 }

@@ -251,12 +251,11 @@ function see_applications(){
       var obj=JSON.parse(xhr.responseText);
       var div='<table id="apps_table">';
       div+='<tr>';
-      div+='<th>Application id</th>';
-      div+='<th>User id</th>';
-      div+='<th>Applicant name</th>';
-      div+='<th>Job id</th>';
-      div+='<th>Job name</th>';
+      div+='<th>#</th>';
+      div+='<th>Applicant Name (id)</th>';
+      div+='<th>Job Title (id)</th>';
       div+='<th>CV</th>';
+      div+='<th></th>';
       div+='</tr>';
       var user_id;
       var cv;
@@ -273,11 +272,11 @@ function see_applications(){
         }
         div+="<tr>";
         div+='<td>'+app.id+'</td>';
-        div+='<td>'+user_id+'</td>';
-        div+='<td>'+app.fname+' '+app.lname+'</td>';
-        div+='<td>'+app.job_id+'</td>';
-        div+='<td>'+app.job_name+'</td>';
-        div+='<td onclick="download(\''+cv+'\');">'+cv+'</td>';
+        div+='<td>'+app.fname+' '+app.lname+' ('+user_id+')</td>';
+        div+='<td>'+app.job_name+' ('+app.job_id+')</td>';
+        div+='<td class="no_wrap">'+cv+' <img src="download2.png" class="table_icon" id="download_icon" onclick="download(\''+cv+'\');"></td>';
+        div+='<td id="delete_col"><img src="delete.png" class="table_icon" onclick="delete_app(\''+app.id+'\');"</td>';
+        //div+='<td onclick="delete_app(\''+app.id+'\');">DELETE <span class=\"del_conf\" id=\"del_conf'+app.id+'\"><span class=\"Y_N\" onclick=\"delete_app_do('+app.id+');\"> Y </span> /<span class=\"Y_N\" onclick=\"delete_app_canx('+app.id+');\"> N </span></span></td>';
         div+="</tr>";
       }
       set_id("applications",div);
@@ -287,7 +286,50 @@ function see_applications(){
   var token=localStorage.getItem("token");
   var send_value="token="+token;
   xhr.send(send_value); 
+}
 
+function delete_app(id){
+  $.confirm({
+    useBootstrap: false,
+    title: 'Are you sure you want to delete the application!',
+    content: null,
+    buttons: {
+        "YES, Delete": {
+          btnClass: 'btn-blue',
+          action: function () {
+            delete_app_do(id);
+          }
+        },
+        NO: function () {
+        }
+    }
+  });
+}
+
+/* function delete_app_canx(id){
+  event.stopPropagation();
+  document.getElementById("del_conf"+id).style.visibility="hidden";
+} */
+
+function delete_app_do(id){
+  event.stopPropagation();
+  var xhr = new XMLHttpRequest();
+  var uri=url+"delete_app";
+  xhr.open("POST", uri, true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function (e) {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      if(xhr.responseText==='1'){
+        see_applications();
+      }else{
+        alert("error");
+      }
+      
+    }
+  };
+  var token=localStorage.getItem("token");
+  var send_value="token="+token+"&id="+id;
+  xhr.send(send_value);   
 }
 
 function hide(){
