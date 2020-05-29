@@ -114,14 +114,14 @@ function login(){
 }
 
 function logged_in_items(){
-  inline_block("user");
+  inline_block("user","logout");
   var t=localStorage.getItem("user")+'<span id="logout_hover">logout</span>';
   set_id("user",t);
   on_click("logout_hover",logout);
 }
 
 function admin_items(){
-  inline_block("add_job_button","see_apps_button");
+  inline_block("add_job_button","add_job_button_m","see_apps_button");
 }
 function post_job(){
   var xhr = new XMLHttpRequest();
@@ -227,7 +227,7 @@ function logout(){
   localStorage.clear();
   hide("user");
   inline_block("login_link");
-  hide("main_container","home","login","add_job","add_job_button","see_apps_button","applications");
+  hide("main_container","home","login","add_job","add_job_button","add_job_button_m","see_apps_button","applications");
   block("home");
   set_id("add_job_result","");
 }
@@ -291,7 +291,7 @@ function see_applications(){
 function delete_app(id){
   $.confirm({
     useBootstrap: false,
-    title: 'Are you sure you want to delete the application!',
+    title: 'Are you sure you want to delete the application?',
     content: null,
     buttons: {
         "YES, Delete": {
@@ -335,6 +335,9 @@ function delete_app_do(id){
 function hide(){
   for(var i=0;i<arguments.length;i++){
     document.getElementById(arguments[i]).style.display = "none";
+    if(arguments[i]==="menu"){
+      document.getElementById("menu_button").style.backgroundColor="#b8b888";  
+    }
   }
 }
 function block(){
@@ -402,6 +405,7 @@ document.getElementById("menu_button").addEventListener("click", function() {
   }else
   {
     block("menu");
+    document.getElementById("menu_button").style.backgroundColor="teal";  
   }
 });
 
@@ -434,10 +438,12 @@ on_enter("add_job_name",post_job);
 on_enter("add_job_description",post_job);
 
 on_click("all_jobs",function() {get_jobs("all")});
+on_click("all_jobs_button",function() {get_jobs("all")});
 on_click("search_button",function() {get_jobs("search")});
 on_click("login_button",login);
 on_click("logout",logout);
 on_click("add_job_button", add_job);
+on_click("add_job_button_m", add_job);
 on_click("add_job_submit",post_job);
 on_click("home_button",function() {hide_main();block("home");});
 on_click("login_link",function() {hide_main();block("login");});

@@ -1,5 +1,16 @@
 html{
-    background-color: #2e2b2b;
+    /* background-color: #2e2b2b; */
+    background-image: url('/home/ed/java/JobPortal/WebContent/background11.jpg');
+    background-repeat:no-repeat;
+}
+
+#note{
+    background-color: white;
+    padding: 4px;
+}
+
+#note button{
+    float: right;
 }
 
 .table_icon{
@@ -55,6 +66,10 @@ html{
     display: none;
 }
 
+#logout{
+    display: none;
+}
+
 #user:hover #logout_hover{
     display: block;
     margin-top: 8px;
@@ -100,6 +115,12 @@ html{
 
 .menu_opt{
     margin: 6px 0 6px 0;
+    width: 193px;
+    display: inline-block;
+}
+
+.menu_opt:hover{
+    background-color: violet;
 }
 
 #home{
@@ -115,7 +136,7 @@ html{
     margin: 100px 0 0 30px;
 }
 
-#add_job_button{
+#add_job_button,#add_job_button_m{
     display: none;
 }
 
@@ -240,13 +261,16 @@ td{
 
   #apps_table{
       width: 100%;
+      background-color: #404071;
+      margin: 2px;
+      border-collapse: collapse;
   }
 
 @media only screen and (min-width: 500px) {
 /*   #menu_button{
     display: none;
   } */
-
+  
   #menu_bar{
       display: block;
   }
@@ -258,6 +282,27 @@ td{
   #open_box{
       width: 90%;
   }
+  #search_input{
+    width: 280px;
+  }
+  #search_button{
+    width: 99px;
+    height: 30px;
+    margin-left: 20px;
+    font-size: 15px;
+  }
+  #menu{
+      right: 8px;
+      top: 60px;
+  }
+  .login_link{
+      right: 250px;
+  }
 
+}
 
+@media only screen and (min-width: 1200px) {
+    html{
+        background-size: cover;
+      }
 }
